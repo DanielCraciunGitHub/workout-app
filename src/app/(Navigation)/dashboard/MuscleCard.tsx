@@ -16,10 +16,12 @@ export const MuscleCard = ({
 }: MuscleCardProps) => {
   let days = 1
   if (dateRange && dateRange.to && dateRange.from) {
-    days = differenceInDays(dateRange.to, dateRange.from)
+    days = differenceInDays(dateRange.to, dateRange.from) + 1
+    console.log(days)
   }
 
   function calculateProgress() {
+    if (days === 1) return 0
     const dailyReps = totalVolume / days
 
     const progress =

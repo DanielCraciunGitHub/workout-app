@@ -1,8 +1,6 @@
 import { db } from "@/db"
-import { userExerciseData, users } from "@/db/schema"
-import { addDays, format } from "date-fns"
+import { userExerciseData } from "@/db/schema"
 import { and, between, eq } from "drizzle-orm"
-import { DateRange } from "react-day-picker"
 import { z } from "zod"
 
 import { getExercisesByName } from "@/app/_actions/exercises"
@@ -19,12 +17,13 @@ export const exerciseRouter = router({
   getExerciseDataByDateRange: publicProcedure
     .input(
       z.object({
-        dateRange: z.custom<DateRange | undefined>(),
+        dateRange: z.custom<{ from: string; to: string } | undefined>(),
         userId: z.string(),
       })
     )
     .query(async ({ input }) => {
       if (input.dateRange && input.dateRange.to && input.dateRange.from) {
+        console.log(input.dateRange)
         const data = await db.query.userExerciseData.findMany({
           columns: {
             volume: true,
@@ -41,13 +40,13 @@ export const exerciseRouter = router({
             eq(userExerciseData.userId, input.userId),
             between(
               userExerciseData.date,
-              format(input.dateRange?.from!, "yyyy-MM-dd"),
-              format(input.dateRange?.to!, "yyyy-MM-dd")
+              input.dateRange.from,
+              input.dateRange.to
             )
           ),
         })
         return data
       }
-      return undefined
+      return null
     }),
 })

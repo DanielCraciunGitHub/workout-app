@@ -7,7 +7,7 @@ export const siteConfig = {
   url:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : `https://workout-app-nextjs.netlify.app`,
+      : `https://workout-app-red.vercel.app`,
   navLinks: [
     {
       name: "Volume Tracker",

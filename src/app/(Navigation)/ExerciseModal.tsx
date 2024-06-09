@@ -69,7 +69,7 @@ export const ExerciseModal = ({
       }}
     >
       <DialogTrigger asChild>{buttonNode}</DialogTrigger>
-      <DialogContent className="flex flex-col border-muted">
+      <DialogContent className="fixed top-48 flex flex-col border-muted md:block">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">{name}</DialogTitle>
           <DialogDescription className="text-lg">
