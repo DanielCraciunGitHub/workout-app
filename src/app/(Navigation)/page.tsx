@@ -1,6 +1,7 @@
 import { Metadata, Viewport } from "next"
 
 import { baseMetadata, baseViewport } from "@/config/metadata"
+import AuthButton from "@/components/Buttons/AuthButton"
 
 export const metadata: Metadata = {
   ...baseMetadata,
@@ -24,6 +25,7 @@ export default async function Home() {
       <div className="text-4xl font-extrabold tracking-tight md:text-5xl">
         Hello world
       </div>
+      <AuthButton />
     </section>
   )
 }

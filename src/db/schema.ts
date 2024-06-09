@@ -62,83 +62,41 @@ export const verificationTokens = sqliteTable(
   })
 )
 
-export const articleViews = sqliteTable("articleViews", {
-  articleSlug: text("articleSlug", { length: 255 }).notNull().primaryKey(),
-  views: integer("views", { mode: "number" }).default(0),
-})
-
-export const articleLikes = sqliteTable("articleLikes", {
+export const exercises = sqliteTable("exercises", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => ulid()),
-  userId: text("userId", { length: 255 })
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  commentId: text("commentId", { length: 255 }).references(
-    () => articleComments.id,
-    { onDelete: "cascade" }
-  ),
-  articleSlug: text("articleSlug", { length: 255 }).notNull(),
-  createdAt: text("createdAt").default(sql`CURRENT_TIMESTAMP`),
+  name: text("name").notNull(),
+  muscle: text("muscle").notNull(),
+  difficulty: text("difficulty").notNull(),
 })
-export const articleComments = sqliteTable("articleComments", {
+export const userExerciseData = sqliteTable("userExerciseData", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => ulid()),
-  articleSlug: text("articleSlug", { length: 255 }).notNull(),
-  userId: text("userId", { length: 255 })
+  userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  updatedAt: text("updatedAt").default(sql`CURRENT_TIMESTAMP`),
-  isEdited: integer("isEdited").default(0),
-  replyingTo: text("replyingTo"),
-  body: text("body"),
-  parentId: text("parentId", { length: 255 }).references(
-    (): AnySQLiteColumn => articleComments.id,
-    { onDelete: "cascade" }
-  ),
-  resolved: integer("resolved", { mode: "boolean" }).default(false),
+  exerciseId: text("exerciseId")
+    .notNull()
+    .references(() => exercises.id),
+  volume: integer("volume", { mode: "number" }).default(0).notNull(),
+  date: text("date")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
 })
 
-export const usersRelations = relations(users, ({ many }) => ({
-  author: many(articleComments, {
-    relationName: "author",
-  }),
-  liker: many(articleLikes, {
-    relationName: "liker",
-  }),
-}))
-
-export const likesRelations = relations(articleLikes, ({ one }) => ({
-  liker: one(users, {
-    fields: [articleLikes.userId],
+export const userExerciseRelations = relations(userExerciseData, ({ one }) => ({
+  user: one(users, {
+    fields: [userExerciseData.userId],
     references: [users.id],
-    relationName: "liker",
+    relationName: "user",
   }),
-  likes: one(articleComments, {
-    fields: [articleLikes.commentId],
-    references: [articleComments.id],
+  exercises: one(exercises, {
+    fields: [userExerciseData.exerciseId],
+    references: [exercises.id],
+    relationName: "exercise",
   }),
 }))
-
-export const commentsRelations = relations(
-  articleComments,
-  ({ one, many }) => ({
-    author: one(users, {
-      fields: [articleComments.userId],
-      references: [users.id],
-      relationName: "author",
-    }),
-    likes: many(articleLikes),
-    replyTo: one(articleComments, {
-      fields: [articleComments.parentId],
-      references: [articleComments.id],
-      relationName: "replies",
-    }),
-    replies: many(articleComments, {
-      relationName: "replies",
-    }),
-  })
-)
