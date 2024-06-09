@@ -7,11 +7,15 @@ export const siteConfig = {
   url:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : `https://example.com`,
+      : `https://workout-app-nextjs.netlify.app`,
   navLinks: [
     {
-      name: "APP",
+      name: "Volume Tracker",
       href: "/",
+    },
+    {
+      name: "Dashboard",
+      href: "/dashboard",
     },
   ] satisfies NavItem[],
   socialLinks: [
@@ -36,5 +40,28 @@ export const siteConfig = {
       icon: <BsTwitterX />,
     },
   ] as const satisfies SocialLink[],
-  footerText: "© 2024 APPNAME. All Rights Reserved" as const satisfies string,
+  footerText:
+    "© 2024 Volume Tracker. All Rights Reserved" as const satisfies string,
+} as const
+
+export const exerciseConfig = {
+  muscles: [
+    { muscleName: "abdominals", size: "small" },
+    { muscleName: "abductors", size: "small" },
+    { muscleName: "adductors", size: "small" },
+    { muscleName: "biceps", size: "small" },
+    { muscleName: "calves", size: "small" },
+    { muscleName: "chest", size: "big" },
+    { muscleName: "forearms", size: "small" },
+    { muscleName: "glutes", size: "big" },
+    { muscleName: "hamstrings", size: "big" },
+    { muscleName: "lats", size: "big" },
+    { muscleName: "lower_back", size: "small" },
+    { muscleName: "middle_back", size: "big" },
+    { muscleName: "neck", size: "small" },
+    { muscleName: "quadriceps", size: "big" },
+    { muscleName: "traps", size: "big" },
+    { muscleName: "triceps", size: "small" },
+    { muscleName: "shoulders", size: "small" },
+  ] satisfies Array<{ muscleName: string; size: "big" | "small" }>,
 } as const

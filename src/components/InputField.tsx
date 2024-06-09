@@ -21,7 +21,7 @@ interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
   control: Control<any>
 }
 
-const GenericFormField = ({
+export const GenericFormField = ({
   name,
   label,
   description,
@@ -58,4 +58,3 @@ const GenericFormField = ({
     />
   )
 }
-export default GenericFormField

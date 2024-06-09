@@ -1,18 +1,19 @@
 import { Metadata, Viewport } from "next"
 
 import { baseMetadata, baseViewport } from "@/config/metadata"
-import AuthButton from "@/components/Buttons/AuthButton"
+
+import { ExercisesList } from "./ExercisesList"
 
 export const metadata: Metadata = {
   ...baseMetadata,
-  title: { absolute: "Daniel Craciun" },
+  title: { absolute: "APPNAME" },
   openGraph: {
     ...baseMetadata.openGraph,
-    title: { absolute: "Daniel Craciun" },
+    title: { absolute: "APPNAME" },
   },
   twitter: {
     ...baseMetadata.twitter,
-    title: { absolute: "Daniel Craciun" },
+    title: { absolute: "APPNAME" },
   },
 }
 export const viewport: Viewport = {
@@ -21,11 +22,12 @@ export const viewport: Viewport = {
 
 export default async function Home() {
   return (
-    <section className="flex flex-col">
+    <section className="mt-2 flex flex-col items-center space-y-8">
       <div className="text-4xl font-extrabold tracking-tight md:text-5xl">
-        Hello world
+        Select your Exercises
       </div>
-      <AuthButton />
+
+      <ExercisesList />
     </section>
   )
 }
